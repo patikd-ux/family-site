@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "family-site.fullname" . }}-config
+  labels:
+    {{- include "family-site.labels" . | nindent 4 }}
+data:
+  {{- toYaml .Values.config | nindent 2 }}
+
