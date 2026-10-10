@@ -20,17 +20,17 @@ kind: Ingress
 metadata:
   name: family-site-welcome
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
     - http:
         paths:
-          - path: /welcome
-            pathType: Prefix
+          - path: /welcome(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: family-site-image
                 port:
                   number: 80
-
