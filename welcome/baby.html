@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New Baby Info</title>
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 16px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #ff5f6d 0%, #ffc371 50%, #ff9a56 100%);
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 24px;
+    padding: 40px 50px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+    width: 100%;
+    max-width: 760px;
+  }
+
+  .header {
+    text-align: center;
+  }
+
+  .baby-icon {
+    font-size: 70px;
+    line-height: 1;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  h1 {
+    margin: 10px 0 6px;
+    font-size: 2.2em;
+    background: linear-gradient(135deg, #ff5f6d, #ff9a56);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  p.tagline {
+    margin: 0 0 24px;
+    color: #7a4a2f;
+  }
+
+  form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 20px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .field.full {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: #7a4a2f;
+    margin-bottom: 4px;
+  }
+
+  input, select, textarea {
+    padding: 10px 12px;
+    border: 1.5px solid #ffd2b8;
+    border-radius: 10px;
+    font: inherit;
+    background: #fffaf6;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #ff7a5c;
+  }
+
+  .buttons {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 6px;
+  }
+
+  button, .nav-link {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.15s;
+  }
+
+  button:hover, .nav-link:hover {
+    transform: scale(1.05);
+  }
+
+  .primary, .nav-link {
+    background: linear-gradient(135deg, #ff5f6d, #ff9a56);
+    color: white;
+  }
+
+  .secondary {
+    background: #fff0e8;
+    color: #7a4a2f;
+  }
+
+  .summary {
+    display: none;
+    margin-top: 30px;
+    padding: 24px;
+    border-radius: 18px;
+    background: #fff5ee;
+    border: 1.5px dashed #ff9a56;
+  }
+
+  .summary h2 {
+    margin: 0 0 14px;
+    text-align: center;
+    color: #ff5f6d;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  .stat {
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .stat .label {
+    font-size: 0.8em;
+    color: #a0745a;
+  }
+
+  .stat .value {
+    font-size: 1.15em;
+    font-weight: 700;
+    color: #5a3420;
+    margin-top: 4px;
+  }
+
+  .notes {
+    margin-top: 14px;
+    color: #5a3420;
+    white-space: pre-wrap;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 28px;
+  }
+
+  @media (max-width: 600px) {
+    .card { padding: 30px 20px; }
+    form { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div class="baby-icon">&#128118;</div>
+      <h1>New Baby Info</h1>
+      <p class="tagline">Fill in the details of our newest family member.</p>
+    </div>
+
+    <form id="baby-form">
+      <div class="field">
+        <label for="name">Baby's name</label>
+        <input id="name" name="name" type="text" placeholder="e.g. Noa" required>
+      </div>
+      <div class="field">
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender">
+          <option value="">Prefer not to say</option>
+          <option value="Girl">Girl</option>
+          <option value="Boy">Boy</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="birthDate">Date of birth</label>
+        <input id="birthDate" name="birthDate" type="date" required>
+      </div>
+      <div class="field">
+        <label for="birthTime">Time of birth</label>
+        <input id="birthTime" name="birthTime" type="time">
+      </div>
+      <div class="field">
+        <label for="weight">Weight (kg)</label>
+        <input id="weight" name="weight" type="number" step="0.01" min="0" max="15" placeholder="e.g. 3.25">
+      </div>
+      <div class="field">
+        <label for="length">Length (cm)</label>
+        <input id="length" name="length" type="number" step="0.1" min="0" max="120" placeholder="e.g. 50">
+      </div>
+      <div class="field">
+        <label for="head">Head circumference (cm)</label>
+        <input id="head" name="head" type="number" step="0.1" min="0" max="60" placeholder="e.g. 34.5">
+      </div>
+      <div class="field">
+        <label for="place">Place of birth</label>
+        <input id="place" name="place" type="text" placeholder="e.g. Hospital / city">
+      </div>
+      <div class="field full">
+        <label for="parents">Parents</label>
+        <input id="parents" name="parents" type="text" placeholder="e.g. Dana &amp; Avi">
+      </div>
+      <div class="field full">
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" rows="3" placeholder="First smile, favorite song, anything..."></textarea>
+      </div>
+      <div class="buttons">
+        <button type="submit" class="primary">Save</button>
+        <button type="button" class="secondary" id="clear-btn">Clear</button>
+      </div>
+    </form>
+
+    <div class="summary" id="summary">
+      <h2 id="summary-title"></h2>
+      <div class="stats" id="stats"></div>
+      <div class="notes" id="summary-notes"></div>
+    </div>
+
+    <div class="footer">
+      <a class="nav-link" href="/welcome">&larr; Back to Welcome</a>
+    </div>
+  </div>
+
+<script>
+  const STORAGE_KEY = 'family-site-baby-info';
+  const form = document.getElementById('baby-form');
+
+  function ageText(birthDate) {
+    const born = new Date(birthDate + 'T00:00:00');
+    const days = Math.floor((Date.now() - born.getTime()) / 86400000);
+    if (isNaN(days)) return '-';
+    if (days < 0) return 'Not born yet';
+    if (days < 14) return days + (days === 1 ? ' day' : ' days');
+    if (days < 90) return Math.floor(days / 7) + ' weeks';
+    const now = new Date();
+    let months = (now.getFullYear() - born.getFullYear()) * 12 + (now.getMonth() - born.getMonth());
+    if (now.getDate() < born.getDate()) months--;
+    if (months < 24) return months + ' months';
+    return Math.floor(months / 12) + ' years';
+  }
+
+  function stat(label, value) {
+    return value
+      ? '<div class="stat"><div class="label">' + label + '</div><div class="value">' + value + '</div></div>'
+      : '';
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function render(data) {
+    const summary = document.getElementById('summary');
+    if (!data || !data.name) {
+      summary.style.display = 'none';
+      return;
+    }
+    document.getElementById('summary-title').textContent =
+      (data.gender === 'Girl' ? '\u{1F380} ' : data.gender === 'Boy' ? '\u{1F499} ' : '\u{1F37C} ') + data.name;
+
+    const born = data.birthDate
+      ? new Date(data.birthDate + 'T00:00:00').toLocaleDateString() + (data.birthTime ? ' ' + data.birthTime : '')
+      : '';
+
+    document.getElementById('stats').innerHTML =
+      stat('Age', data.birthDate ? ageText(data.birthDate) : '') +
+      stat('Born', escapeHtml(born)) +
+      stat('Weight', data.weight ? data.weight + ' kg' : '') +
+      stat('Length', data.length ? data.length + ' cm' : '') +
+      stat('Head', data.head ? data.head + ' cm' : '') +
+      stat('Place of birth', escapeHtml(data.place || '')) +
+      stat('Parents', escapeHtml(data.parents || ''));
+
+    document.getElementById('summary-notes').textContent = data.notes || '';
+    summary.style.display = 'block';
+  }
+
+  function load() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) {}
+    render(data);
+  });
+
+  document.getElementById('clear-btn').addEventListener('click', function () {
+    form.reset();
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    render(null);
+  });
+
+  const saved = load();
+  if (saved) {
+    Object.keys(saved).forEach(function (key) {
+      if (form.elements[key]) form.elements[key].value = saved[key];
+    });
+    render(saved);
+  }
+</script>
+</body>
+</html>
