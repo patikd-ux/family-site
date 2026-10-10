@@ -28,6 +28,7 @@ jobs:
         run: |
           mkdir -p public/welcome
           cp site/index.html public/
+          cp -r site/shared public/
           cp welcome/index.html welcome/baby.html public/welcome/
 
       - name: Configure Pages
