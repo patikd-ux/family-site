@@ -1,0 +1,148 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: family-site-html
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <title>Rauf-Patik Family</title>
+    <style>
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #4facfe 100%);
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.97);
+        border-radius: 24px;
+        padding: 60px 70px;
+        text-align: center;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+        max-width: 90%;
+      }
+
+      .smiley {
+        font-size: 90px;
+        line-height: 1;
+        margin-bottom: 10px;
+        animation: bounce 2s ease-in-out infinite;
+      }
+
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-12px); }
+      }
+
+      h1 {
+        margin: 10px 0 30px;
+        font-size: 2.4em;
+        background: linear-gradient(135deg, #1e3c72, #4facfe);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .search-bar {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .search-bar input {
+        width: 280px;
+        max-width: 60vw;
+        padding: 12px 18px;
+        border-radius: 999px;
+        border: 2px solid #cfd8e3;
+        font-size: 1em;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      .search-bar input:focus {
+        border-color: #4facfe;
+      }
+
+      .search-bar button {
+        padding: 12px 24px;
+        border-radius: 999px;
+        border: none;
+        background: linear-gradient(135deg, #1e3c72, #4facfe);
+        color: white;
+        font-size: 1em;
+        cursor: pointer;
+        transition: transform 0.15s;
+      }
+
+      .search-bar button:hover {
+        transform: scale(1.05);
+      }
+    </style>
+    </head>
+    <body>
+      <div class="card">
+        <div class="smiley">&#128512;</div>
+        <h1>Hello Rauf-Patik Family</h1>
+        <div class="search-bar">
+          <input type="text" placeholder="Search... (does nothing yet)">
+          <button type="button">Search</button>
+        </div>
+      </div>
+    </body>
+    </html>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: family-site
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: family-site
+  template:
+    metadata:
+      labels:
+        app: family-site
+    spec:
+      # Pin this Pod to a specific node instead of letting the scheduler pick.
+      # You're running a single-node cluster, so this just names that one
+      # node explicitly - but the field works the same way once you have
+      # more than one node to choose between.
+      nodeSelector:
+        kubernetes.io/hostname: minikube
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html-volume
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: html-volume
+          configMap:
+            name: family-site-html
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: family-site-service
+spec:
+  type: NodePort
+  selector:
+    app: family-site
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30090

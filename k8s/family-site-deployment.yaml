@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: family-site-image
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: family-site-image
+  template:
+    metadata:
+      labels:
+        app: family-site-image
+    spec:
+      containers:
+        - name: family-site
+          image: family-site-welcome:1.0.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: "32Mi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 2
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /usr/share/nginx/html/shared
+      volumes:
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: family-site-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: family-site-image-service
+spec:
+  type: NodePort
+  selector:
+    app: family-site-image
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30091
+
