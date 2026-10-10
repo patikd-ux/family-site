@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Welcome to the Family</title>
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #ff5f6d 0%, #ffc371 50%, #ff9a56 100%);
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 24px;
+    padding: 60px 70px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+    max-width: 90%;
+  }
+
+  .smiley {
+    font-size: 90px;
+    line-height: 1;
+    margin-bottom: 10px;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  h1 {
+    margin: 10px 0 20px;
+    font-size: 2.4em;
+    background: linear-gradient(135deg, #ff5f6d, #ff9a56);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  p.tagline {
+    margin: 0 0 10px;
+    color: #7a4a2f;
+    font-size: 1.1em;
+  }
+
+  .nav-link {
+    display: inline-block;
+    margin-top: 28px;
+    padding: 12px 28px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #ff5f6d, #ff9a56);
+    color: white;
+    text-decoration: none;
+    font-size: 0.95em;
+    font-weight: 600;
+    transition: transform 0.15s;
+  }
+
+  .nav-link:hover {
+    transform: scale(1.05);
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="smiley">&#127881;</div>
+    <h1>Welcome to the Family</h1>
+    <p class="tagline">This page is served through the Ingress "welcome" route.</p>
+    <a class="nav-link" href="/">&larr; Back to Family Home</a>
+  </div>
+</body>
+</html>

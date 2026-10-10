@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rauf-Patik Family</title>
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #4facfe 100%);
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 24px;
+    padding: 60px 70px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+    max-width: 90%;
+  }
+
+  .smiley {
+    font-size: 90px;
+    line-height: 1;
+    margin-bottom: 10px;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  h1 {
+    margin: 10px 0 30px;
+    font-size: 2.4em;
+    background: linear-gradient(135deg, #1e3c72, #4facfe);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .search-bar {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .search-bar input {
+    width: 280px;
+    max-width: 60vw;
+    padding: 12px 18px;
+    border-radius: 999px;
+    border: 2px solid #cfd8e3;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-bar input:focus {
+    border-color: #4facfe;
+  }
+
+  .search-bar button {
+    padding: 12px 24px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(135deg, #1e3c72, #4facfe);
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+
+  .search-bar button:hover {
+    transform: scale(1.05);
+  }
+
+  .nav-link {
+    display: inline-block;
+    margin-top: 28px;
+    padding: 12px 28px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #1e3c72, #4facfe);
+    color: white;
+    text-decoration: none;
+    font-size: 0.95em;
+    font-weight: 600;
+    transition: transform 0.15s;
+  }
+
+  .nav-link:hover {
+    transform: scale(1.05);
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="smiley">&#128512;</div>
+    <h1>Hello Rauf-Patik Family</h1>
+    <div class="search-bar">
+      <input type="text" id="q" placeholder="Search a file name...">
+      <button type="button" id="go">Search</button>
+    </div>
+    <pre id="result" style="margin-top:24px;font-size:1.2em;color:#1e3c72;"></pre>
+    <a class="nav-link" href="/welcome">Visit the Welcome Site &rarr;</a>
+  </div>
+  <script>
+    var q = document.getElementById('q');
+    var result = document.getElementById('result');
+
+    function search() {
+      var name = q.value.trim();
+      if (!name) { result.textContent = ''; return; }
+      fetch('/shared/' + encodeURIComponent(name) + '.txt')
+        .then(function (r) {
+          if (!r.ok) { throw new Error('not found (' + r.status + ')'); }
+          return r.text();
+        })
+        .then(function (text) { result.textContent = text; })
+        .catch(function (e) { result.textContent = 'No file "' + name + '.txt": ' + e.message; });
+    }
+
+    document.getElementById('go').addEventListener('click', search);
+    q.addEventListener('keydown', function (e) { if (e.key === 'Enter') { search(); } });
+  </script>
+</body>
+</html>
